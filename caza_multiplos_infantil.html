@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Caza de Múltiplos - Versión Infantil</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  background: #ffeecf;
+  font-family: 'Comic Sans MS', sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+h1 {
+  color: #ff6b00;
+  font-size: 36px;
+  text-shadow: 2px 2px #ffffff;
+}
+.card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 700px;
+  margin: auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+button {
+  background: #ff9d2e;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+}
+button:hover {
+  background: #e68925;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+.number {
+  background: #ffe49b;
+  padding: 15px;
+  border-radius: 12px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.number.correct {
+  background: #8fff8f;
+}
+.number.wrong {
+  background: #ff8f8f;
+}
+</style>
+</head>
+<body>
+
+<h1>🐣 Caza de Múltiplos</h1>
+
+<div class="card">
+  <h2>Elige el múltiplo</h2>
+  <select id="mult">
+    <option value="2">Múltiplo de 2</option>
+    <option value="3">Múltiplo de 3</option>
+    <option value="4">Múltiplo de 4</option>
+    <option value="5">Múltiplo de 5</option>
+    <option value="6">Múltiplo de 6</option>
+    <option value="7">Múltiplo de 7</option>
+    <option value="8">Múltiplo de 8</option>
+    <option value="9">Múltiplo de 9</option>
+    <option value="10">Múltiplo de 10</option>
+  </select>
+
+  <h2>Elige el límite</h2>
+  <select id="limit">
+    <option value="30">Hasta 30</option>
+    <option value="50">Hasta 50</option>
+    <option value="100">Hasta 100</option>
+  </select>
+
+  <br><br>
+  <button onclick="startGame()">🎮 Iniciar</button>
+</div>
+
+<div id="game" class="card" style="margin-top: 25px; display:none;">
+  <h2>Encuentra los múltiplos</h2>
+  <p>Puntuación: <span id="score">0</span></p>
+  <p>Errores: <span id="errors">0</span></p>
+  <div id="grid" class="grid"></div>
+</div>
+
+<script>
+let score = 0;
+let errors = 0;
+
+function startGame() {
+  score = 0;
+  errors = 0;
+  document.getElementById("score").textContent = score;
+  document.getElementById("errors").textContent = errors;
+
+  const m = parseInt(document.getElementById("mult").value);
+  const limit = parseInt(document.getElementById("limit").value);
+
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+  document.getElementById("game").style.display = "block";
+
+  for (let i = 1; i <= limit; i++) {
+    const box = document.createElement("div");
+    box.className = "number";
+    box.textContent = i;
+
+    box.onclick = function() {
+      if (i % m === 0) {
+        box.classList.add("correct");
+        score += 10;
+      } else {
+        box.classList.add("wrong");
+        errors += 1;
+      }
+      document.getElementById("score").textContent = score;
+      document.getElementById("errors").textContent = errors;
+      box.onclick = null;
+    };
+
+    grid.appendChild(box);
+  }
+}
+</script>
+
+</body>
+</html>
